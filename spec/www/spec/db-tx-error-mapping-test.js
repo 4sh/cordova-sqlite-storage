@@ -37,6 +37,8 @@ var scenarioCount = (!!window.hasWebKitWebSQL) ? (isAndroid ? 3 : 2) : 1;
 var mytests = function() {
 
   for (var i=0; i<scenarioCount; ++i) {
+    // TBD skip plugin test on browser platform (not yet supported):
+    if (isBrowser && (i === 0)) continue;
 
     describe(scenarioList[i] + ': db tx error mapping test(s) [TBD INCORRECT & INCONSISTENT error message on Windows - missing actual error info ref: litehelpers/Cordova-sqlite-storage#539]', function() {
       var scenarioName = scenarioList[i];
@@ -121,7 +123,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -152,7 +154,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWindows || isWebSql || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -197,7 +199,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -224,7 +226,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isBrowser || isWindows || isWebSql || (isAndroid && isImpl2))
+            if (isWindows || isWebSql || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -272,7 +274,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -310,7 +312,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWindows || isWebSql || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -370,7 +372,7 @@ var mytests = function() {
 
               if (isWebSql && (!isAndroid || /Android 4.[1-3]/.test(navigator.userAgent)))
                 expect(true).toBe(true); // SKIP for iOS (WebKit) & Android 4.1-4.3 (WebKit) Web SQL
-              else if (isBrowser || isWindows)
+              else if (isWindows)
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(6);
@@ -406,7 +408,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows)
+            if (isWindows || isWebSql)
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(6);
@@ -451,7 +453,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -483,7 +485,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWebSql || isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -529,7 +531,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -559,7 +561,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWebSql || isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -606,7 +608,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -637,7 +639,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWebSql || isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -684,7 +686,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -715,7 +717,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWebSql || isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -764,7 +766,7 @@ var mytests = function() {
               if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
                 expect(error.hasOwnProperty('message')).toBe(true);
 
-              if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+              if (isWindows || (!isWebSql && isAndroid && isImpl2))
                 expect(error.code).toBe(0);
               else
                 expect(error.code).toBe(5);
@@ -800,7 +802,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (isWebSql || isBrowser || isWindows || (isAndroid && isImpl2))
+            if (isWebSql || isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -837,7 +839,7 @@ var mytests = function() {
             if (!isWebSql || isWindows || (isAndroid && (/Android 4/.test(navigator.userAgent))))
               expect(error.hasOwnProperty('message')).toBe(true);
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -886,7 +888,7 @@ var mytests = function() {
 
             if (isWebSql && (!isAndroid || /Android 4.[1-3]/.test(navigator.userAgent)))
               expect(true).toBe(true); // SKIP for iOS (WebKit) & Android 4.1-4.3 (WebKit) Web SQL
-            else if (isBrowser || isWindows)
+            else if (isWindows)
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(6);
@@ -904,8 +906,6 @@ var mytests = function() {
               expect(error.message).toMatch(/a statement with no error handler failed: sqlite3_step failure: UNIQUE constraint failed: test_table\.data/);
             else if (isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed:.*constraint failure/);
-            else if (isBrowser)
-              expect(error.message).toMatch(/a statement with no error handler failed: Error: UNIQUE constraint failed: test_table\.data/);
             else
               expect(error.message).toMatch(/a statement with no error handler failed: UNIQUE constraint failed: test_table\.data/);
 

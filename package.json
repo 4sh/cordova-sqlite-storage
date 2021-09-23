@@ -6,7 +6,6 @@
     "id": "cordova-sqlite-storage",
     "platforms": [
       "android",
-      "browser",
       "ios",
       "osx",
       "windows"
@@ -20,7 +19,6 @@
     "sqlite",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-browser",
     "cordova-ios",
     "cordova-osx",
     "cordova-windows"

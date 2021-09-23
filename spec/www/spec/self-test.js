@@ -11,6 +11,8 @@ var isBrowser = isWebKitBrowser || isFirefox;
 var mytests = function() {
 
   describe('Built-in test(s)', function() {
+    // TBD skip plugin test on browser platform (not yet supported):
+    if (isBrowser) return;
 
     describe('Self test(s)', function() {
       it('Echo test',
