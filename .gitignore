@@ -8,3 +8,5 @@ spec/myplugin
 spec/plugins
 spec/platforms
 yarn.lock
+.idea
+*.iml
