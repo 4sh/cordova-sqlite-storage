@@ -32,6 +32,8 @@ var scenarioCount = (!!window.hasWebKitWebSQL) ? (isAndroid ? 3 : 2) : 1;
 var mytests = function() {
 
   for (var i=0; i<scenarioCount; ++i) {
+    // TBD skip plugin test on browser platform (not yet supported):
+    if (isBrowser && (i === 0)) continue;
 
     describe(scenarioList[i] + ': tx error handling (detailed tx error handling) test(s)', function() {
       var scenarioName = scenarioList[i];
@@ -95,7 +97,7 @@ var mytests = function() {
             expect(error.code).toBeDefined();
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else if (isWebSql && isAndroid)
               expect(true).toBe(true); // SKIP for now
@@ -1757,9 +1759,7 @@ var mytests = function() {
               expect(error.message).toMatch(/the SQLTransactionCallback was null or threw an exception/);
             else if (isAndroid)
               expect(error.message).toMatch(/Cannot .* 'toString' of undefined/);
-            else if (isBrowser && !isSafariBrowser)
-              expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-            else // (iOS, macOS, or Safari browser plugin)
+            else
               expect(error.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
 
             // VERIFY we can still continue:
@@ -1817,8 +1817,6 @@ var mytests = function() {
               expect(error.message).toMatch(/a statement with no error handler failed: SQLite3 step error result code: 21/);
             else if (isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed: query not found/);
-            else if (!isWebSql && isBrowser)
-              expect(error.message).toMatch(/a statement with no error handler failed:.*Nothing to prepare/);
             else if (!isWebSql)
               expect(error.message).toMatch(/a statement with no error handler failed:.*not an error/);
             else if (isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent)))
@@ -1881,8 +1879,6 @@ var mytests = function() {
               expect(error.message).toMatch(/a statement with no error handler failed: SQLite3 step error result code: 21/);
             else if (isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed: query not found/);
-            else if (!isWebSql && isBrowser)
-              expect(error.message).toMatch(/a statement with no error handler failed:.*Nothing to prepare/);
             else if (!isWebSql)
               expect(error.message).toMatch(/a statement with no error handler failed:.*not an error/);
             else if (isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent)))
@@ -1945,8 +1941,6 @@ var mytests = function() {
               expect(error.message).toMatch(/a statement with no error handler failed: SQLite3 step error result code: 21/);
             else if (isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed: query not found/);
-            else if (!isWebSql && isBrowser)
-              expect(error.message).toMatch(/a statement with no error handler failed:.*Nothing to prepare/);
             else if (!isWebSql)
               expect(error.message).toMatch(/a statement with no error handler failed:.*not an error/);
             else if (isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent)))
@@ -2010,8 +2004,6 @@ var mytests = function() {
               expect(error.message).toMatch(/a statement with no error handler failed: SQLite3 step error result code: 21/);
             else if (isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed: query not found/);
-            else if (!isWebSql && isBrowser)
-              expect(error.message).toMatch(/a statement with no error handler failed:.*Nothing to prepare/);
             else if (!isWebSql)
               expect(error.message).toMatch(/a statement with no error handler failed:.*not an error/);
             else if (isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent)))
@@ -2066,7 +2058,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2130,7 +2122,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2194,7 +2186,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2254,7 +2246,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2315,7 +2307,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2360,7 +2352,7 @@ var mytests = function() {
 
         }, MYTIMEOUT);
 
-        it(suiteName + 'transaction.executeSql with undefined for SQL statement (BOGUS) [error message IGNORED on Chrome/EDGE/Firefox browser plugin for now]', function (done) {
+        it(suiteName + 'transaction.executeSql with undefined for SQL statement (BOGUS)', function (done) {
           var db = openDatabase('tx-with-undefined-for-sql-statement.db');
 
           var check1 = false;
@@ -2392,9 +2384,7 @@ var mytests = function() {
               expect(error.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
             else if (isAndroid)
               expect(error.message).toMatch(/Cannot .* 'toString' of undefined/);
-            else if (isBrowser && !isSafariBrowser)
-              expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-            else // (iOS, macOS, or Safari browser plugin)
+            else
               expect(error.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
 
             // Verify we can still continue:
@@ -2427,7 +2417,7 @@ var mytests = function() {
 
         }, MYTIMEOUT);
 
-        it(suiteName + 'transaction.executeSql with null for SQL statement (BOGUS) [error message IGNORED on Chrome/EDGE/Firefox browser plugin for now]', function (done) {
+        it(suiteName + 'transaction.executeSql with null for SQL statement (BOGUS)', function (done) {
           var db = openDatabase("tx-with-null-for-sql-statement.db", "1.0", "Demo", DEFAULT_SIZE);
 
           var check1 = false;
@@ -2459,9 +2449,7 @@ var mytests = function() {
               expect(error.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
             else if (isAndroid)
               expect(error.message).toMatch(/Cannot .* 'toString' of null/);
-            else if (isBrowser && !isSafariBrowser)
-              expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-            else // (iOS, macOS, or Safari browser plugin)
+            else
               expect(error.message).toMatch(/null is not an object \(evaluating 'sql\.toString'\)/);
 
             // Verify we can still continue:
@@ -2510,7 +2498,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2570,7 +2558,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2630,7 +2618,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2689,7 +2677,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2748,7 +2736,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2807,7 +2795,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && (isBrowser || isWindows || (isAndroid && isImpl2)))
+            if (isWindows || (isAndroid && isImpl2))
               expect(error.code).toBe(0);
             else
               expect(error.code).toBe(5);
@@ -2850,7 +2838,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'transaction.executeSql with undefined executeSql argument (BOGUS) [error message IGNORED on Chrome/EDGE/Firefox browser plugin for now]', function (done) {
+        it(suiteName + 'transaction.executeSql with undefined executeSql argument (BOGUS)', function (done) {
           var db = openDatabase("tx-with-undefined-executeSql-argument.db", "1.0", "Demo", DEFAULT_SIZE);
 
           var check1 = false;
@@ -2882,9 +2870,7 @@ var mytests = function() {
               expect(error.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
             else if (isAndroid)
               expect(error.message).toMatch(/Cannot .* 'toString' of undefined/);
-            else if (isBrowser && !isSafariBrowser)
-              expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-            else // (iOS, macOS, or Safari browser plugin)
+            else
               expect(error.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
 
             // Verify we can still continue:
@@ -2946,9 +2932,7 @@ var mytests = function() {
                 expect(ex.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
               else if (!isWebSql && isAndroid)
                 expect(ex.message).toMatch(/Cannot .* 'toString' of undefined/);
-              else if (!isWebSql && isBrowser && !isSafariBrowser)
-                expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-              else if (!isWebSql) // (iOS, macOS, or Safari browser plugin)
+              else if (!isWebSql)
                 expect(ex.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
 
               throw(ex);
@@ -2966,9 +2950,7 @@ var mytests = function() {
               expect(error.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
             else if (!isWebSql && isAndroid)
               expect(error.message).toMatch(/Cannot .* 'toString' of undefined/);
-            else if (!isWebSql && isBrowser && !isSafariBrowser)
-              expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-            else if (!isWebSql) // (iOS, macOS, or Safari browser plugin)
+            else if (!isWebSql)
               expect(error.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
             else
               expect(error.message).toMatch(/the SQLTransactionCallback was null or threw an exception/);
@@ -3032,9 +3014,7 @@ var mytests = function() {
                 expect(ex.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
               else if (!isWebSql && isAndroid)
                 expect(ex.message).toMatch(/Cannot .* 'toString' of undefined/);
-              else if (!isWebSql && isBrowser && !isSafariBrowser)
-                expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-              else if (!isWebSql) // (iOS, macOS, or Safari browser plugin)
+              else if (!isWebSql)
                 expect(ex.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
 
               throw(ex);
@@ -3052,9 +3032,7 @@ var mytests = function() {
               expect(error.message).toMatch(/Unable to get property 'toString' of undefined or null reference/);
             else if (!isWebSql && isAndroid)
               expect(error.message).toMatch(/Cannot .* 'toString' of undefined/);
-            else if (!isWebSql && isBrowser && !isSafariBrowser)
-              expect(true).toBe(true); // XXX TBD message IGNORED on Chrome/EDGE/Firefox browser plugin for now
-            else if (!isWebSql) // (iOS, macOS, or Safari browser plugin)
+            else if (!isWebSql)
               expect(error.message).toMatch(/undefined is not an object \(evaluating 'sql\.toString'\)/);
             else
               expect(error.message).toMatch(/the SQLTransactionCallback was null or threw an exception/);
@@ -3541,7 +3519,7 @@ var mytests = function() {
 
             expect(error.code).toBe(0);
 
-            if (isWindows || isEdgeBrowser)
+            if (isWindows)
               expect(error.message).toMatch(/Function expected/);
             else if (!isWebSql)
               expect(error.message).toMatch(/is not a function/);
@@ -3592,7 +3570,7 @@ var mytests = function() {
 
             expect(error.code).toBe(0);
 
-            if (isWindows || isEdgeBrowser)
+            if (isWindows)
               expect(error.message).toMatch(/Function expected/);
             else if (!isWebSql)
               expect(error.message).toMatch(/is not a function/);
@@ -3641,7 +3619,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && !isBrowser && !isWindows && !(isAndroid && isImpl2))
+            if (!isWebSql && !isWindows && !(isAndroid && isImpl2))
               expect(error.code).toBe(5);
             else
               expect(error.code).toBe(0);
@@ -3695,7 +3673,7 @@ var mytests = function() {
             expect(error.code).toBeDefined()
             expect(error.message).toBeDefined();
 
-            if (!isWebSql && !isBrowser && !isWindows && !(isAndroid && isImpl2))
+            if (!isWebSql && !isWindows && !(isAndroid && isImpl2))
               expect(error.code).toBe(5);
             else
               expect(error.code).toBe(0);
@@ -3853,7 +3831,7 @@ var mytests = function() {
 
             expect(error.code).toBe(0);
 
-            if (isWindows || isEdgeBrowser)
+            if (isWindows)
               expect(error.message).toMatch(/Function expected/);
             else if (!isWebSql)
               expect(error.message).toMatch(/is not a function/);
@@ -3903,7 +3881,7 @@ var mytests = function() {
 
             expect(error.code).toBe(0);
 
-            if (isWindows || isEdgeBrowser)
+            if (isWindows)
               expect(error.message).toMatch(/Function expected/);
             else if (!isWebSql)
               expect(error.message).toMatch(/is not a function/);
